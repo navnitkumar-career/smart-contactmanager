@@ -1,5 +1,6 @@
 package com.contact.controller;
 
+import io.github.pixee.security.Filenames;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -81,9 +82,9 @@ public class UserController {
 			if (file.isEmpty()) {
 				contact.setImage("contact1.png");
 			} else {
-				contact.setImage(file.getOriginalFilename());
+				contact.setImage(Filenames.toSimpleFileName(file.getOriginalFilename()));
 				File saveFile = new ClassPathResource("static/img").getFile();
-				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
+				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + Filenames.toSimpleFileName(file.getOriginalFilename()));
 				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 			}
 			user.getContacts().add(contact);
@@ -146,9 +147,9 @@ public class UserController {
 //				File file1=new File(deleteFile,oldContact.getImage());
 //				file1.delete();
 				File saveFile = new ClassPathResource("static/img").getFile();
-				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
+				Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + Filenames.toSimpleFileName(file.getOriginalFilename()));
 				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-				contact.setImage(file.getOriginalFilename());
+				contact.setImage(Filenames.toSimpleFileName(file.getOriginalFilename()));
 			} else {
 				contact.setImage(oldContact.getImage());
 			}
